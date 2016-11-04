@@ -93,13 +93,13 @@ Window {
 
 
   LocalToolbar {
+    x: 0
+    y: 0
     width: mainWindow.width
     height: mainWindow.height / 8
     model: pointsdynamic
     buttonWidth: mainWindow.width / 5
     clickEnumValue: PointsStatus.Clicked
-    x: 0
-    y: 0
   }
 
   ScrollView {
@@ -165,6 +165,22 @@ Window {
                   anchors.fill: parent
                   onClicked: {
                     dynamic.setData(index, index, DynamicEntryModel.ClickOnRectangleRole)
+                    // Manage points moving
+                    pointsMoving.x = mainPanelId.x + currentCellId.x + hidingRectangle.width / 2
+                    pointsMoving.y = mainPanelId.y + currentCellId.y + hidingRectangle.height / 2
+                    pointsMoving.maxY = model.pointsWon ? 0 : mainWindow.height
+                    pointsMoving.pointsLost = model.pointsLost
+                    pointsMoving.pointsWon = model.pointsWon
+                    pointsMoving.pointsChangeToShow = model.pointsChangeToShow
+                    pointsMoving.averageWidth = Math.min(hidingRectangle.width, hidingRectangle.height)
+                    var stateValue = "none"
+                    if(model.wantImage) {
+                      if(model.pointsWon)   stateValue = "pointsWon"
+                      if(model.pointsLost)  stateValue = "pointsLost"
+                    }
+                    pointsMoving.state = stateValue
+                    dynamic.setData(index, index, DynamicEntryModel.ResetPointsValueRole)
+                    // Process all is won
                     if(model.allIsWon) {
                       mainWindow.processWinning()
                     }
@@ -194,35 +210,26 @@ Window {
               width: parent.width
               height: parent.height
             }
-
-            // Points
-            PointsMoving {
-              id: pointsMoving
-              x: dynamic.maxWidthValue / 4;
-              y: dynamic.maxHeightValue / 4;
-              width:(x < y ? x : y) * 2
-              pointsLost: model.pointsLost
-              pointsWon: model.pointsWon
-              pointsChangeToShow: model.pointsChangeToShow
-              state: {
-                var returnValue = "none"
-                if(model.wantImage) {
-                  if(model.pointsWon)   returnValue = "pointsWon"
-                  if(model.pointsLost)  returnValue = "pointsLost"
-                }
-                dynamic.setData(index, index, DynamicEntryModel.ResetPointsValueRole)
-
-                return returnValue
-              }
-              maxX: mainWindow.width
-              maxY: model.pointsWon ? 0 : mainWindow.height
-            }
           }
         }
       }
     }
 
 
+  }
+
+  // Points
+  PointsMoving {
+    id: pointsMoving
+    x: 0
+    y: 0
+    property int averageWidth: 10
+    width: averageWidth - (x > y ? y/(x + 1) : x/(y + 1)) * averageWidth
+    pointsLost: false
+    pointsWon: false
+    pointsChangeToShow: 0
+    state: "none"
+    maxY: 0
   }
 
   CurtainEffectRight {

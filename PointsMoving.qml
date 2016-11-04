@@ -31,7 +31,7 @@ Rectangle {
     anchors.centerIn: parent
     color: pointsMoving.wonStatus ? "yellow" : "darkgray"
     text: pointsMoving.wonStatus ? "+" + pointsMoving.pointsChangeToShow : pointsMoving.pointsChangeToShow
-    font.pointSize: pointsMoving.width / 2.2
+    font.pointSize: (pointsMoving.width / 2.2) + 1
     font.bold: true
   }
   states: [
@@ -40,19 +40,18 @@ Rectangle {
       name: "pointsWon"
       PropertyChanges {
         target: pointsMoving;
-        x: pointsMoving.x // currentCellId.x + currentCellId.width / 2;
-        y: pointsMoving.y // currentCellId.y + currentCellId.height / 2;
+        x: pointsMoving.x
+        y: pointsMoving.y
         visible: true; wonStatus: true
       }
     },
 
-    // In state 'bottomLeft', move the image to bottomLeftRect
     State {
       name: "pointsLost"
       PropertyChanges {
         target: pointsMoving;
-        x: pointsMoving.x // currentCellId.x + currentCellId.width / 2;
-        y: pointsMoving.y // currentCellId.y + currentCellId.height / 2;
+        x: pointsMoving.x
+        y: pointsMoving.y
         visible: true; wonStatus: false
       }
     },
@@ -66,15 +65,13 @@ Rectangle {
   ]
   transitions: [
 
-    // When transitioning to 'middleRight' move x,y over a duration of 1 second,
-    // with OutBounce easing function.
     Transition {
       from: "*"; to: "pointsWon"
       PropertyAnimation {
         target: pointsMoving
         properties: "y"; to: maxY
         easing.type: Easing.InOutBounce
-        easing.amplitude: -300
+        easing.amplitude: -10
         duration: timerAnimation.interval
 
       }
@@ -91,7 +88,7 @@ Rectangle {
         target: pointsMoving
         properties: "y"; to: maxY
         easing.type: Easing.OutBounce
-        easing.amplitude:  300
+        easing.amplitude:  10
         duration: timerAnimation.interval
 
       }
@@ -101,7 +98,7 @@ Rectangle {
         duration: timerAnimation.interval * 0.7
 
       }
-    }//,
+    }
 
   ]
 }
