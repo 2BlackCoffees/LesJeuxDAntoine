@@ -1,0 +1,43 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>CarLogos/AlfaRomeo.png</file>
+        <file>CarLogos/Audi.png</file>
+        <file>CarLogos/BMW.png</file>
+        <file>CarLogos/Citroen.png</file>
+        <file>CarLogos/Ferrari.png</file>
+        <file>CarLogos/FIAT.png</file>
+        <file>CarLogos/Ford.png</file>
+        <file>CarLogos/Honda.png</file>
+        <file>CarLogos/Hyundai.png</file>
+        <file>CarLogos/Jaguar.png</file>
+        <file>CarLogos/KIA.png</file>
+        <file>CarLogos/Lamborghini.png</file>
+        <file>CarLogos/Mazda.png</file>
+        <file>CarLogos/Mini.png</file>
+        <file>CarLogos/Mitsubischi.png</file>
+        <file>CarLogos/Opel.png</file>
+        <file>CarLogos/Peugeot.png</file>
+        <file>CarLogos/Porsche.png</file>
+        <file>CarLogos/Skoda.png</file>
+        <file>CarLogos/Toyota.png</file>
+        <file>CarLogos/Volvo.png</file>
+        <file>CarLogos/VW.png</file>
+        <file>PointsMoving.qml</file>
+        <file>Misc/SmallStarRed.png</file>
+        <file>Misc/SmallStarYellow.png</file>
+        <file>BkGnds/Citroen.jpg</file>
+        <file>BkGnds/AvionsPapier.jpg</file>
+        <file>BkGnds/Lune.jpg</file>
+        <file>BkGnds/Maison.jpg</file>
+        <file>BkGnds/Montgolfieres.jpg</file>
+        <file>StatusDialog.qml</file>
+        <file>LocalToolbar.qml</file>
+        <file>Misc/TowTruckSawyer.png</file>
+        <file>ParticlesInSquare.qml</file>
+        <file>Misc/Curtain.jpg</file>
+        <file>CurtainEffectLeft.qml</file>
+        <file>CurtainEffectRight.qml</file>
+        <file>Misc/Splash.png</file>
+    </qresource>
+</RCC>
