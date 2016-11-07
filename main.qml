@@ -4,8 +4,9 @@ import QtQuick.Controls 1.5
 import QtQuick.Layouts 1.2
 import QtQuick.Dialogs 1.2
 // our module
-import main.model 1.0
-import points.status 1.0
+import QMLInterface 1.0
+import PointsStatus 1.0
+import ModelCards 1.0
 
 
 Window {
@@ -20,41 +21,39 @@ Window {
     return false
   }
 
-  DynamicEntryModel {
-    id: dynamic
-    property var maxWidthValue: dynamic.maxWidth()
-    property var maxHeightValue: dynamic.maxHeight()
+  QMLInterface {
+    id: qmlInterfaceId
+    property var modelCards: qmlInterfaceId.getDynamicEntryModel()
+    property var modelPoints: qmlInterfaceId.getPointsStatus()
+
   }
 
-  PointsStatus {
-    id: pointsdynamic
-  }
 
   function processWinning() {
     winningDialog.visible = true
-    winningDialog.message = dynamic.getWinningText()
+    winningDialog.message = qmlInterfaceId.getWinningText()
     winningDialog.showStars = false
-    if(dynamic.isGoingToNextLevel()) {
+    if(qmlInterfaceId.isGoingToNextLevel()) {
       winningDialog.statusColor = "green"
       winningDialog.showStars = true
       curtainEffectRight.open = false
       curtainEffectLeft.open = false
-    } else if(dynamic.hadErrors()) {
+    } else if(qmlInterfaceId.hadErrors()) {
       winningDialog.statusColor = "yellow"
     } else {
       winningDialog.statusColor = "green"
     }
 
-    dynamic.setData(0, 0, DynamicEntryModel.AllIsWonRole)
+    qmlInterfaceId.modelCards.setData(0, 0, DynamicEntryModel.AllIsWonRole)
     mainPanelId.width = getMainPanelWidth()
     mainPanelId.height= getMainPanelHeight()
-    grid.rows = dynamic.rowToDisplay()
-    grid.columns = dynamic.columnCount()
+    grid.rows = qmlInterfaceId.rowToDisplay()
+    grid.columns = qmlInterfaceId.columnCount()
     idFlickable.contentHeight = getRequiredHeight()
     idFlickable.contentWidth = getRequiredWidth()
     mainPanelId.width = mainWindow.getMainPanelWidth()
     mainPanelId.height = mainWindow.getMainPanelHeight()
-    dynamic.setData(0, 0, DynamicEntryModel.ForceRepaintRole)
+    qmlInterfaceId.modelCards.setData(0, 0, DynamicEntryModel.ForceRepaintRole)
 
     return true
   }
@@ -70,17 +69,17 @@ Window {
       id: bkgndImage
       sourceSize.width: parent.width
       sourceSize.height: parent.height
-      source: dynamic.getBackgroundImagePath()
+      source: qmlInterfaceId.getBackgroundImagePath()
       anchors.centerIn: parent
     }
   }
 
   function getRequiredWidth() {
-    return dynamic.columnCount() * (dynamic.maxWidthValue + 10);
+    return qmlInterfaceId.columnCount() * (qmlInterfaceId.maxWidth() + 10);
   }
 
   function getRequiredHeight() {
-    return dynamic.rowToDisplay() * (dynamic.maxHeightValue + 10);
+    return qmlInterfaceId.rowToDisplay() * (qmlInterfaceId.maxHeight() + 10);
   }
 
   function getMainPanelWidth() {
@@ -97,7 +96,7 @@ Window {
     y: 0
     width: mainWindow.width
     height: mainWindow.height / 8
-    model: pointsdynamic
+    model: qmlInterfaceId.modelPoints
     buttonWidth: mainWindow.width / 5
     clickEnumValue: PointsStatus.Clicked
   }
@@ -120,19 +119,19 @@ Window {
         anchors.margins: 10
         property int rowSpacing: 10
         property int columnSpacing: 10
-        property int rows: dynamic.rowToDisplay()
-        property int columns: dynamic.columnCount()
+        property int rows: qmlInterfaceId.rowToDisplay()
+        property int columns: qmlInterfaceId.columnCount()
         height: getRequiredHeight()
         width: getRequiredWidth()
         x: 0
         y: 0
 
         Repeater {
-          model: dynamic
+          model: qmlInterfaceId.modelCards
           Item {
             id: currentCellId
-            width: dynamic.maxWidthValue
-            height: dynamic.maxHeightValue
+            width: qmlInterfaceId.maxWidth()
+            height: qmlInterfaceId.maxHeight()
             property int row: index / grid.columns
             property int column: index % grid.columns
             x: grid.columnSpacing + (width + grid.columnSpacing) * column
@@ -140,15 +139,15 @@ Window {
 
             Item {
 
-              property var starPathRed: dynamic.startPathRed()
-              property var starPathYellow: dynamic.startPathYellow()
+              property var starPathRed: qmlInterfaceId.startPathRed()
+              property var starPathYellow: qmlInterfaceId.startPathYellow()
 
               // Show Rectangle or image
               Rectangle {
                 id: hidingRectangle
                 visible: !model.wantImage
-                width: dynamic.maxWidthValue
-                height: dynamic.maxHeightValue
+                width: qmlInterfaceId.maxWidth()
+                height: qmlInterfaceId.maxHeight()
                 gradient: Gradient {
                   GradientStop { position: 0.0; color: "red"}
                   GradientStop { position: 0.5; color: "green" }
@@ -164,7 +163,7 @@ Window {
                 MouseArea {
                   anchors.fill: parent
                   onClicked: {
-                    dynamic.setData(index, index, DynamicEntryModel.ClickOnRectangleRole)
+                    qmlInterfaceId.modelCards.setData(index, index, DynamicEntryModel.ClickOnRectangleRole)
                     // Manage points moving
                     pointsMoving.x = mainPanelId.x + currentCellId.x + hidingRectangle.width / 2
                     pointsMoving.y = mainPanelId.y + currentCellId.y + hidingRectangle.height / 2
@@ -179,7 +178,7 @@ Window {
                       if(model.pointsLost)  stateValue = "pointsLost"
                     }
                     pointsMoving.state = stateValue
-                    dynamic.setData(index, index, DynamicEntryModel.ResetPointsValueRole)
+                    qmlInterfaceId.modelCards.setData(index, index, DynamicEntryModel.ResetPointsValueRole)
                     // Process all is won
                     if(model.allIsWon) {
                       mainWindow.processWinning()
@@ -198,7 +197,7 @@ Window {
               MouseArea {
                 anchors.fill: parent
                 onClicked: {
-                  dynamic.setData(index, index, DynamicEntryModel.ClickOnImageRole)
+                  qmlInterfaceId.modelCards.setData(index, index, DynamicEntryModel.ClickOnImageRole)
                 }
               }
             }
@@ -206,7 +205,7 @@ Window {
             ParticlesInSquare {
               anchors.centerIn: parent
               showParticle: model.wantImage
-              starPath: dynamic.startPathRed()
+              starPath: qmlInterfaceId.startPathRed()
               width: parent.width
               height: parent.height
             }
@@ -254,8 +253,8 @@ Window {
     x: mainWindow.width/ 8
     y: mainWindow.height / 8
     title: "Bravo !!!"
-    imagePath: dynamic.getLocalDialogImage()
-    starPath: dynamic.startPathYellow()
+    imagePath: qmlInterfaceId.getLocalDialogImage()
+    starPath: qmlInterfaceId.startPathYellow()
   }
 
   Image {
@@ -275,7 +274,7 @@ Window {
     ParticlesInSquare {
       anchors.fill: splash
       showParticle: true
-      starPath: dynamic.startPathYellow()
+      starPath: qmlInterfaceId.startPathYellow()
       emitRate: 4000
       interval: 3500
     }

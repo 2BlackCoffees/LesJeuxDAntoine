@@ -16,12 +16,14 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     DynamicEntryModel.cpp \
     PointsStatus.cpp \
-    Model.cpp
+    Model.cpp \
+    QMLInterface.cpp
 
 HEADERS  += mainwindow.h \
     DynamicEntryModel.h \
     PointsStatus.h \
-    Model.h
+    Model.h \
+    QMLInterface.h
 
 FORMS    += mainwindow.ui
 

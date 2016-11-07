@@ -3,7 +3,7 @@
 
 #include "DynamicEntryModel.h"
 #include "PointsStatus.h"
-
+#include "QMLInterface.h"
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
@@ -11,8 +11,9 @@ int main(int argc, char *argv[])
     // register the type DataEntryModel
     // under the url "org.example" in version 1.0
     // under the name "DataEntryModel"
-    qmlRegisterType<PointsStatus>("points.status", 1, 0, "PointsStatus");
-    qmlRegisterType<DynamicEntryModel>("main.model", 1, 0, "DynamicEntryModel");
+    qmlRegisterType<QMLInterface>("QMLInterface", 1, 0, "QMLInterface");
+    qmlRegisterType<PointsStatus>("PointsStatus", 1, 0, "PointsStatus");
+    qmlRegisterType<DynamicEntryModel>("ModelCards", 1, 0, "DynamicEntryModel");
     //DynamicEntryModel::declareQML();
 
     QQmlApplicationEngine engine;
