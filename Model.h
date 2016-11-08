@@ -8,36 +8,36 @@ class Observer;
 
 class Model
 {
-    static int mLevel;
-    static int mNbPoints;
-    static std::vector<Observer*> mObservers;
-    static bool mReadMode;
+    int mLevel;
+    int mNbPoints;
+    std::vector<Observer*> mObservers;
+    bool mReadMode;
 
 public:
     Model();
 
-    static void setLevel(int level, Observer* fromObserver) {
+    void setLevel(int level, Observer* fromObserver) {
         mLevel = level;
         update(fromObserver);
     }
-    static int getLevel() { return mLevel; }
-    static void increasePoints(int increasePoints, Observer* fromObserver) {
+    int getLevel() { return mLevel; }
+    void increasePoints(int increasePoints, Observer* fromObserver) {
         mNbPoints += increasePoints;
         update(fromObserver);
     }
-    static int getNbPoints() { return mNbPoints; }
-    static void registerObserver(Observer* observer) {
+    int getNbPoints() { return mNbPoints; }
+    void registerObserver(Observer* observer) {
         mObservers.push_back(observer);
     }
-    static void setReadMode(bool readMode, Observer* fromObserver) {
+    void setReadMode(bool readMode, Observer* fromObserver) {
         mReadMode = readMode;
         update(fromObserver);
     }
-    static bool getReadMode() {
+    bool getReadMode() {
         return mReadMode;
     }
 
-    static void update(Observer* fromObserver);
+    void update(Observer* fromObserver);
 
 };
 

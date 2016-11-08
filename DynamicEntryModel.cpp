@@ -4,8 +4,10 @@
 
 #include <QDebug>
 
-DynamicEntryModel::DynamicEntryModel(QObject *parent)
-    : QAbstractTableModel(parent), Observer(this)
+#include <cassert>
+
+DynamicEntryModel::DynamicEntryModel(QObject *parent, Model *model)
+    : QAbstractTableModel(parent), mModel(model), Observer(this)
 {
 
     QDirIterator resourceCars(":/CarLogos", QDirIterator::Subdirectories);
@@ -33,7 +35,8 @@ DynamicEntryModel::DynamicEntryModel(QObject *parent)
 }
 
 void DynamicEntryModel::setLevel(int level) {
-    Model::setLevel(level, this);
+    assert(mModel);
+    mModel->setLevel(level, this);
 
     clear();
     std::vector<int> tmpList;
@@ -139,11 +142,6 @@ QVariant DynamicEntryModel::data(const QModelIndex &index, int role) const
     // The repeater works only linearly with row information
     int row = index.row();
 
-    // boundary check for the row
-    /*    if(row < 0 || row > rowCount()) {
-        return QVariant();
-    }*/
-
     // A model can return data for different roles.
     // The default role is the display role.
     // it can be accesses in QML with "model.display"
@@ -154,7 +152,8 @@ QVariant DynamicEntryModel::data(const QModelIndex &index, int role) const
         return mImagePathsToShow.value(row);
 
     case TextOnRectangleRole:
-        if(Model::getReadMode()) {
+        assert(mModel);
+        if(mModel->getReadMode()) {
             return mImagePathsToShow.value(row).remove( QRegExp( "^.*\\/" )).remove(QRegExp( "\\..*$" ));
         } else {
             return "Clique moi :-)";
@@ -173,7 +172,8 @@ QVariant DynamicEntryModel::data(const QModelIndex &index, int role) const
         return mPointsDifference;
 
     case NumberPointsRole:
-        return Model::getNbPoints();
+        assert(mModel);
+        return mModel->getNbPoints();
 
     case OpacityRole:
         return ImageAlreadyFound(row) ? 0.3 : 1.0;
@@ -224,7 +224,8 @@ bool DynamicEntryModel::setData(const QModelIndex & /*index*/, const QVariant & 
 
 
         if(pointsChanged) {
-            Model::increasePoints(mPointsDifference, this);
+            assert(mModel);
+            mModel->increasePoints(mPointsDifference, this);
         } else {
             mPointsDifference = 0;
         }
@@ -238,7 +239,8 @@ bool DynamicEntryModel::setData(const QModelIndex & /*index*/, const QVariant & 
         break;
     case AllIsWonRole:
         if(mNextLevelRequired) {
-            setLevel(Model::getLevel() + 1);
+            assert(mModel);
+            setLevel(mModel->getLevel() + 1);
         } else {
             setLevel(Model::getLevel());
         }

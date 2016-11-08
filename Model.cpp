@@ -1,11 +1,5 @@
 #include "Model.h"
 
-int Model::mLevel{2};
-int Model::mNbPoints{0};
-std::vector<Observer*> Model::mObservers;
-bool Model::mReadMode{true};
-
-
 Model::Model() {
 }
 

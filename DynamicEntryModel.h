@@ -36,12 +36,7 @@ public:
     };
     Q_ENUMS(RoleSet)
 
-    // Do not forget to declare your class to the QML system.
-    /* static void declareQML() {
-                qmlRegisterType<DynamicEntryModel>("CppRoleSet", 1, 0, "RoleSet");
-            }*/
-
-    explicit DynamicEntryModel(QObject *parent = nullptr);
+    explicit DynamicEntryModel(QObject *parent, Model* model);
     ~DynamicEntryModel();
     // inserts a color at the index (0 at begining, count-1 at end)
     Q_INVOKABLE void insert(int index, const QString & imagePath);
@@ -190,6 +185,7 @@ private:
     bool ImageAlreadyClicked(int row) const;
     int mPointsDifference{0};
     unsigned int mCurBkGnd{0};
+    Model* mModel{nullptr};
     mutable unsigned int mNbTimesLevelFullySuceeded{0};
     mutable unsigned int mErrorMade{false};
     mutable QString mWinningText;

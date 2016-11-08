@@ -3,6 +3,7 @@
 
 #include "DynamicEntryModel.h"
 #include "PointsStatus.h"
+#include "Model.h"
 
 #include <QObject>
 #include <QQuickView>
@@ -14,13 +15,9 @@ class QMLInterface : public QObject
     Q_OBJECT
 public:
     explicit QMLInterface(QObject *parent = nullptr) :
-        mDynamicEntryModel{new DynamicEntryModel(parent)},
-        mPointsStatus{new PointsStatus(parent)} {
-        QQuickView view;
-
-        view.rootContext()->setContextProperty("modelCards", mDynamicEntryModel.get());
-        view.rootContext()->setContextProperty("modelPoints", mPointsStatus.get());
-
+        mModel{new Model()},
+        mDynamicEntryModel{new DynamicEntryModel(parent, mModel)},
+        mPointsStatus{new PointsStatus(parent, mModel)} {
     }
     virtual ~QMLInterface();
 
@@ -77,6 +74,7 @@ public:
 
 
 private:
+    std::unique_ptr<Model> mModel;
     std::unique_ptr<DynamicEntryModel> mDynamicEntryModel;
     std::unique_ptr<PointsStatus> mPointsStatus;
 
