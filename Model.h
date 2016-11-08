@@ -8,10 +8,10 @@ class Observer;
 
 class Model
 {
-    int mLevel;
-    int mNbPoints;
+    int mLevel{1};
+    int mNbPoints{0};
     std::vector<Observer*> mObservers;
-    bool mReadMode;
+    bool mReadMode{true};
 
 public:
     Model();
@@ -43,8 +43,8 @@ public:
 
 class Observer {
 public:
-    Observer(Observer* registerObserver) {
-        Model::registerObserver(registerObserver);
+    Observer(Observer* registerObserver, Model* model) {
+        model->registerObserver(registerObserver);
     }
 
     virtual void update() = 0;

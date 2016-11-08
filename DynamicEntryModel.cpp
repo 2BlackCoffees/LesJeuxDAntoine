@@ -6,10 +6,11 @@
 
 #include <cassert>
 
-DynamicEntryModel::DynamicEntryModel(QObject *parent, Model *model)
-    : QAbstractTableModel(parent), mModel(model), Observer(this)
+DynamicEntryModel::DynamicEntryModel(QObject* parent, Model* model)
+    : QAbstractTableModel(parent), Observer(this, model), mModel(model)
 {
 
+    assert(model);
     QDirIterator resourceCars(":/CarLogos", QDirIterator::Subdirectories);
     while (resourceCars.hasNext()) {
         resourceCars.next();
@@ -30,8 +31,8 @@ DynamicEntryModel::DynamicEntryModel(QObject *parent, Model *model)
     }
     mCurBkGnd = 0;
 
+    std::srand(static_cast<unsigned>( std::time(0) ));
     setLevel(1);
-    std::srand ( unsigned ( std::time(0) ) );
 }
 
 void DynamicEntryModel::setLevel(int level) {
@@ -238,11 +239,11 @@ bool DynamicEntryModel::setData(const QModelIndex & /*index*/, const QVariant & 
     }
         break;
     case AllIsWonRole:
+        assert(mModel);
         if(mNextLevelRequired) {
-            assert(mModel);
             setLevel(mModel->getLevel() + 1);
         } else {
-            setLevel(Model::getLevel());
+            setLevel(mModel->getLevel());
         }
         mNextLevelRequired = false;
         break;

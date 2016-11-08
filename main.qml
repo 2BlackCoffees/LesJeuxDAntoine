@@ -16,6 +16,7 @@ Window {
   height: Screen.height
   flags: Qt.SplashScreen //| Qt.WindowStaysOnTopHint
   color: "black"
+
   property var start: {
     splash.visible = true
     return false

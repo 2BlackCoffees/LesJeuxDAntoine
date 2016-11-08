@@ -36,7 +36,7 @@ public:
     };
     Q_ENUMS(RoleSet)
 
-    explicit DynamicEntryModel(QObject *parent, Model* model);
+    explicit DynamicEntryModel(QObject* parent = nullptr, Model* model = nullptr);
     ~DynamicEntryModel();
     // inserts a color at the index (0 at begining, count-1 at end)
     Q_INVOKABLE void insert(int index, const QString & imagePath);

@@ -16,8 +16,8 @@ class QMLInterface : public QObject
 public:
     explicit QMLInterface(QObject *parent = nullptr) :
         mModel{new Model()},
-        mDynamicEntryModel{new DynamicEntryModel(parent, mModel)},
-        mPointsStatus{new PointsStatus(parent, mModel)} {
+        mDynamicEntryModel{new DynamicEntryModel(parent, mModel.get())},
+        mPointsStatus{new PointsStatus(parent, mModel.get())} {
     }
     virtual ~QMLInterface();
 

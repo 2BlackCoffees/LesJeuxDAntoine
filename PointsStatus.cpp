@@ -1,4 +1,5 @@
 #include "PointsStatus.h"
+
 #include <QApplication>
 
 QVariant PointsStatus::data(const QModelIndex &index, int role) const {
@@ -9,10 +10,11 @@ QVariant PointsStatus::data(const QModelIndex &index, int role) const {
         // Return the color name for the particular row
         // Qt automatically converts it to the QVariant type
         Status tmpValue = mValues[row];
+        assert(mModel);
         if(tmpValue.mValueType == Points) {
-            return "Points:\n" + QString::number(Model::getNbPoints());
+            return "Points:\n" + QString::number(mModel->getNbPoints());
         } else if(tmpValue.mValueType == Level) {
-            return "Level:\n" + QString::number(Model::getLevel());
+            return "Level:\n" + QString::number(mModel->getLevel());
         } else if(tmpValue.mValueType == Read) {
             if(!tmpValue.mIsChecked) return "Not\nreading";
             else return "Reading";
@@ -39,8 +41,9 @@ bool PointsStatus::setData(const QModelIndex & /*index*/, const QVariant & value
         if(row == Quit) {
             QApplication::quit();
         } else if(row == Read) {
+            assert(mModel);
             mValues[row].mIsChecked ^= true;
-            Model::setReadMode(mValues[row].mIsChecked, this);
+            mModel->setReadMode(mValues[row].mIsChecked, this);
             emit dataChanged(createIndex(row, 0), createIndex(row, 0));
         }
     }

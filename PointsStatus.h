@@ -9,6 +9,7 @@
 
 #include <string>
 #include <map>
+#include <cassert>
 
 class PointsStatus : public QAbstractListModel, Observer
 {
@@ -51,7 +52,10 @@ private:
 
 
 public:
-    PointsStatus(QObject *parent = nullptr) : QAbstractListModel(parent), Observer(this) {}
+    PointsStatus(QObject* parent = nullptr, Model* model = nullptr) :
+        QAbstractListModel(parent), Observer(this, model), mModel(model) {
+        assert(model);
+    }
 
     int rowCount(const QModelIndex & /*parent = QModelIndex()*/) const override {
         return mValues.size();
@@ -77,6 +81,7 @@ public:
     bool setData(const QModelIndex &, const QVariant &value, int role) override;
 
 private:
+    Model* mModel{nullptr};
     struct Status {
         Status(RoleSet&& valueType, RoleNames&& role = CannotClickRole, int value = -1, bool checked = false) :
             mValueType{std::move(valueType)},
