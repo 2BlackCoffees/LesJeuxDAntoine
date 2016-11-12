@@ -55,7 +55,7 @@ Window {
     mainPanelId.width = mainWindow.getMainPanelWidth()
     mainPanelId.height = mainWindow.getMainPanelHeight()
     qmlInterfaceId.modelCards.setData(0, 0, DynamicEntryModel.ForceRepaintRole)
-
+    bkgndImage.source = qmlInterfaceId.getBackgroundImagePath()
     return true
   }
 

@@ -23,45 +23,45 @@ public:
 
     Q_INVOKABLE int rowCount() const {
         // Provide information to the QML repeater
-        return mDynamicEntryModel->rowCount();
+        return mModel->rowCount();
     }
     Q_INVOKABLE int rowToDisplay() const {
-        return mDynamicEntryModel->rowToDisplay();
+        return mModel->rowToDisplay();
     }
     Q_INVOKABLE int columnCount() const  {
-        return mDynamicEntryModel->columnCount();
+        return mModel->columnCount();
     }
     Q_INVOKABLE int maxWidth() const {
-        return mDynamicEntryModel->maxWidth();
+        return mModel->maxWidth();
     }
     Q_INVOKABLE int maxHeight() const {
-        return mDynamicEntryModel->maxHeight();
+        return mModel->maxHeight();
     }
     Q_INVOKABLE QString getWinningText() const {
-        return mDynamicEntryModel->getWinningText();
+        return mModel->getWinningText();
 
     }
     Q_INVOKABLE QString startPathRed() const {
-        return mDynamicEntryModel->startPathRed();
+        return mModel->startPathRed();
     }
     Q_INVOKABLE QString startPathYellow() const {
-        return mDynamicEntryModel->startPathYellow();
+        return mModel->startPathYellow();
     }
     Q_INVOKABLE bool isGoingToNextLevel() const {
-        return mDynamicEntryModel->isGoingToNextLevel();
+        return mModel->isGoingToNextLevel();
     }
     Q_INVOKABLE bool hadErrors() const {
-        return mDynamicEntryModel->hadErrors();
+        return mModel->hadErrors();
     }
     Q_INVOKABLE bool isAllWon() const {
-        return mDynamicEntryModel->isAllWon();
+        return mModel->isAllWon();
 
     }
     Q_INVOKABLE QString getBackgroundImagePath() const {
-        return mDynamicEntryModel->getBackgroundImagePath();
+        return mModel->getBackgroundImagePath();
     }
     Q_INVOKABLE QString getLocalDialogImage() const {
-        return mDynamicEntryModel->getLocalDialogImage();
+        return mModel->getLocalDialogImage();
     }
 
     Q_INVOKABLE DynamicEntryModel* getDynamicEntryModel() {

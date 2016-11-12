@@ -45,85 +45,24 @@ public:
     // removes a color from the index
     Q_INVOKABLE void removeRow(int index, const QModelIndex&);
     // clear the whole model (e.g. reset)
-    Q_INVOKABLE void clear();
-    // gets a color at the index
-    Q_INVOKABLE QColor get(int index);
+    Q_INVOKABLE void clear() {
+        if(mModel->NumberOfImages() > 0) {
+            removeRows(0, mModel->NumberOfImages(), QModelIndex());
+        }
+
+        mModel->Clear();
+    }
 
     virtual QVariant data(const QModelIndex & index, int role) const;
 
-    Q_INVOKABLE int rowCount() const {
-        // Provide information to the QML repeater
-        return mImagePathsToShow.count();
-    }
     Q_INVOKABLE int rowCount(const QModelIndex & /*parent = QModelIndex()*/) const override {
         // Provide information to the QML repeater
-        return rowCount();
-    }
-    Q_INVOKABLE int rowToDisplay() const {
-        // Provide information to the Grid: Nb of rows
-        return mImagePathsToShow.count() / mMaxCols;
-    }
-    Q_INVOKABLE int columnCount() const  {
-        // Provide information to the grid: Nb of columns
-        return mMaxCols;
+        return mModel->rowCount();
     }
     Q_INVOKABLE int columnCount(const QModelIndex & /*parent = QModelIndex()*/) const override {
         // Provide information to the grid: Nb of columns
-        return columnCount();
+        return mModel->columnCount();
     }
-    Q_INVOKABLE int maxWidth() const {
-        return mMaxWidth;
-    }
-    Q_INVOKABLE int maxHeight() const {
-        return mMaxHeight;
-    }
-    Q_INVOKABLE QString getWinningText() const {
-        QString returnString = mWinningText;
-        mWinningText = "";
-        return returnString;
-    }
-    Q_INVOKABLE QString startPathRed() const {
-        return mStarPathRed;
-    }
-    Q_INVOKABLE QString startPathYellow() const {
-        return mStarPathYellow;
-    }
-    Q_INVOKABLE bool isGoingToNextLevel() const {
-        return mNextLevelRequired;
-    }
-    Q_INVOKABLE bool hadErrors() const {
-        return mNbTimesLevelFullySuceeded == 0;
-    }
-    Q_INVOKABLE bool isAllWon() const {
-        if(static_cast<unsigned int>(mImagePathsToShow.size()) ==
-                mImagesFound.size()) {
-            if(mWinningText.isEmpty()) {
-                if(!mErrorMade) {
-                    mNbTimesLevelFullySuceeded++;
-                    if(mNbTimesLevelFullySuceeded >= 2) {
-                        mNbTimesLevelFullySuceeded = 0;
-                        mNextLevelRequired = true;
-                        mWinningText = "Encore un sans fautes !!!\n Prepare toi\nau prochain niveau !!";
-                    } else {
-                        mWinningText = "Bravo c'est un sans fautes !!\nEncore une fois un sans fautes et ... \nc'est le prochain niveau !!";
-                    }
-                } else {
-                    mNbTimesLevelFullySuceeded = 0;
-                    mWinningText = "Quelques petites erreurs,\nil faut faire deux fois de suite\nun sans fautes pour passer\nau niveau suivant ...";
-                }
-                mErrorMade = false;
-            }
-            return true;
-        }
-        return false;
-    }
-    Q_INVOKABLE QString getBackgroundImagePath() const {
-        return mAllBkGnds[mCurBkGnd];
-    }
-    Q_INVOKABLE QString getLocalDialogImage() const {
-        return "Misc/TowTruckSawyer.png";
-    }
-
     QHash<int, QByteArray> roleNames() const override
     {
         return mRoleNames;
@@ -170,26 +109,9 @@ private:
     };
     QModelIndex mPrevIndex;
     QModelIndex mCurIndex;
-    const QString mStarPathYellow{"Misc/SmallStarYellow.png"};
-    const QString mStarPathRed{"Misc/SmallStarRed.png"};
-    int mMaxWidth{0};
-    int mMaxHeight{0};
-    QStringList mAllImagePaths;
-    QStringList mAllBkGnds;
-    QStringList mImagePathsToShow;
-    std::vector<int> mImagesFound;
-    std::vector<int> mImagesClicked;
-    bool ImageAlreadyFound(int row) const;
-    int mMaxCols{2};
-    void setLevel(int level);
-    bool ImageAlreadyClicked(int row) const;
-    int mPointsDifference{0};
-    unsigned int mCurBkGnd{0};
     Model* mModel{nullptr};
-    mutable unsigned int mNbTimesLevelFullySuceeded{0};
-    mutable unsigned int mErrorMade{false};
-    mutable QString mWinningText;
-    mutable bool mNextLevelRequired{false};
+
+    void setLevel(int level);
 };
 
 #endif // DATAENTRYMODEL_H
