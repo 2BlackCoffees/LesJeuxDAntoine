@@ -19,6 +19,7 @@
 #include "DynamicEntryModel.h"
 #include <stdlib.h>     /* srand, rand */
 #include <ctime>        // std::time
+#include "TraceDebug.hpp"
 
 #include <QDebug>
 
@@ -27,7 +28,7 @@
 DynamicEntryModel::DynamicEntryModel(QObject* parent, Model* model)
     : QAbstractTableModel(parent), Observer(this, model), mModel(model)
 {
-  setLevel(1);
+    setLevel(1);
 }
 
 void DynamicEntryModel::setLevel(int level) {
@@ -83,6 +84,10 @@ void DynamicEntryModel::removeRow(int index, const QModelIndex&)
 
 QVariant DynamicEntryModel::data(const QModelIndex &index, int role) const
 {
+    START_TRACE_PERFORMANCE(data);
+    DISPLAY_IMMEDIATE_DEBUG_VALUE(index.row());
+    DISPLAY_IMMEDIATE_DEBUG_VALUE(index.column());
+    DISPLAY_IMMEDIATE_DEBUG_VALUE(role);
     // The QML repeater works only linearly with row information
     int row = index.row();
     QVariant dbgValue;

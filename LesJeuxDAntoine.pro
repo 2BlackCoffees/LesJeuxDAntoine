@@ -8,7 +8,7 @@ QT       += core gui
 QT       += qml quick
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = MemoryTest
+TARGET = LesJeuxDAntoine
 TEMPLATE = app
 CONFIG += c++11
 
@@ -17,13 +17,15 @@ SOURCES += main.cpp\
     DynamicEntryModel.cpp \
     PointsStatus.cpp \
     Model.cpp \
-    QMLInterface.cpp
+    QMLInterface.cpp \
+    TraceDebug.cpp
 
 HEADERS  += mainwindow.h \
     DynamicEntryModel.h \
     PointsStatus.h \
     Model.h \
-    QMLInterface.h
+    QMLInterface.h \
+    TraceDebug.hpp
 
 FORMS    += mainwindow.ui
 

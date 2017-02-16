@@ -22,18 +22,24 @@
 #include "DynamicEntryModel.h"
 #include "PointsStatus.h"
 #include "QMLInterface.h"
+#include "TraceDebug.hpp"
 int main(int argc, char *argv[])
 {
+    START_TRACE_PERFORMANCE(main);
     QGuiApplication app(argc, argv);
 
     // register the type DataEntryModel
     // under the url "org.example" in version 1.0
     // under the name "DataEntryModel"
+    ADD_TRACE_PERFORMANCE(main, "qmlRegisterType<QMLInterface>(QMLInterface)");
     qmlRegisterType<QMLInterface>("QMLInterface", 1, 0, "QMLInterface");
+    ADD_TRACE_PERFORMANCE(main, "qmlRegisterType<QMLInterface>(PointsStatus)");
     qmlRegisterType<PointsStatus>("PointsStatus", 1, 0, "PointsStatus");
+    ADD_TRACE_PERFORMANCE(main, "qmlRegisterType<QMLInterface>(DynamicEntryModel)");
     qmlRegisterType<DynamicEntryModel>("ModelCards", 1, 0, "DynamicEntryModel");
 
     QQmlApplicationEngine engine;
+    ADD_TRACE_PERFORMANCE(main, "Loading QML");
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
 
     return app.exec();

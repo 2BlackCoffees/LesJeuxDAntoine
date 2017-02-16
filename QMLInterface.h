@@ -22,6 +22,7 @@
 #include "DynamicEntryModel.h"
 #include "PointsStatus.h"
 #include "Model.h"
+#include "TraceDebug.hpp"
 
 #include <QObject>
 #include <QQuickView>
@@ -83,6 +84,7 @@ public:
     }
 
     Q_INVOKABLE DynamicEntryModel* getDynamicEntryModel() {
+        START_TRACE_PERFORMANCE(getDynamicEntryModel);
         return mDynamicEntryModel.get();
     }
 

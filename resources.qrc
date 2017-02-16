@@ -39,5 +39,19 @@
         <file>CurtainEffectLeft.qml</file>
         <file>CurtainEffectRight.qml</file>
         <file>Misc/Splash.png</file>
+        <file>CarLogos/AlfaRomeo-Giulietta.png</file>
+        <file>CarLogos/Audi_A1.png</file>
+        <file>CarLogos/Bentley-Continental-GT-V8-S.png</file>
+        <file>CarLogos/Chevrolet-Camaro.png</file>
+        <file>CarLogos/Citroen-C4-Cactus.png</file>
+        <file>CarLogos/Dodge-SRT-Viper.png</file>
+        <file>CarLogos/Ford_F_150.png</file>
+        <file>CarLogos/Mercedes_A_Class.png</file>
+        <file>CarLogos/Nissan-GT.png</file>
+        <file>CarLogos/Porsche-911.png</file>
+        <file>CarLogos/Porsche-Cayenne.png</file>
+        <file>CarLogos/RangeRover-Evoque.png</file>
+        <file>CarLogos/VW-Golf.png</file>
+        <file>CarLogos/BMW-X6.png</file>
     </qresource>
 </RCC>

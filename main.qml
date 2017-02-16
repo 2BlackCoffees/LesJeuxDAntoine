@@ -40,6 +40,8 @@ Window {
     return false
   }
 
+  property bool delayWinningProcess: false;
+
   QMLInterface {
     id: qmlInterfaceId
     property var modelCards: qmlInterfaceId.getDynamicEntryModel()
@@ -47,8 +49,24 @@ Window {
 
   }
 
+  Timer {
+    id: processWinningDelay
+    interval: 2000
+    repeat: false
+    running: delayWinningProcess
+    onTriggered: {
+      delayWinningProcess = false
+      prepareNextGame()
+    }
+    onRunningChanged: {
+      if(running) {
+        showWinningDialog()
+      }
+    }
+  }
 
-  function processWinning() {
+  function showWinningDialog()
+  {
     winningDialog.visible = true
     winningDialog.message = qmlInterfaceId.getWinningText()
     winningDialog.showStars = false
@@ -60,9 +78,11 @@ Window {
     } else if(qmlInterfaceId.hadErrors()) {
       winningDialog.statusColor = "yellow"
     } else {
-      winningDialog.statusColor = "green"
+      winningDialog.statusColor = "blue"
     }
+  }
 
+  function prepareNextGame() {
     qmlInterfaceId.modelCards.setData(0, 0, DynamicEntryModel.AllIsWonRole)
     mainPanelId.width = getMainPanelWidth()
     mainPanelId.height= getMainPanelHeight()
@@ -109,7 +129,6 @@ Window {
     return Math.min(getRequiredHeight(), 3 * mainWindow.height / 4)
   }
 
-
   LocalToolbar {
     x: 0
     y: 0
@@ -131,7 +150,6 @@ Window {
       boundsBehavior: Flickable.StopAtBounds
       contentHeight: getRequiredHeight()
       contentWidth: getRequiredWidth()
-
 
       Item {
         id: grid
@@ -200,7 +218,8 @@ Window {
                     qmlInterfaceId.modelCards.setData(index, index, DynamicEntryModel.ResetPointsValueRole)
                     // Process all is won
                     if(model.allIsWon) {
-                      mainWindow.processWinning()
+                      mainWindow.delayWinningProcess = true
+                      //mainWindow.processWinning()
                     }
                   }
                 }
